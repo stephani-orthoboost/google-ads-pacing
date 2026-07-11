@@ -1,0 +1,277 @@
+{
+  "generated_at": "2026-07-11T22:34:35Z",
+  "awaiting_refresh": false,
+  "budget_source": "ad_account_mapping.xlsx",
+  "period": {
+    "month_label": "July 2026",
+    "day_of_month": 11,
+    "days_in_month": 31,
+    "month_fraction_elapsed": 0.3548
+  },
+  "accounts": [
+    {
+      "customer_id": "641-468-5939",
+      "customer_id_fmt": "641-468-5939",
+      "name": "Esthetic Partners Dental Group",
+      "budget": 3000.0,
+      "mtd_spend": 1125.61,
+      "clicks": 104,
+      "conversions": 6.0,
+      "cost_per_conv": 187.6,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=6414685939"
+    },
+    {
+      "customer_id": "753-548-3897",
+      "customer_id_fmt": "753-548-3897",
+      "name": "Smiles Orthodontics",
+      "budget": 2000.0,
+      "mtd_spend": 712.29,
+      "clicks": 29,
+      "conversions": 1.0,
+      "cost_per_conv": 712.29,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=7535483897"
+    },
+    {
+      "customer_id": "190-963-7609",
+      "customer_id_fmt": "190-963-7609",
+      "name": "Team Orthodontics",
+      "budget": 1800.0,
+      "mtd_spend": 625.19,
+      "clicks": 30,
+      "conversions": 6.0,
+      "cost_per_conv": 104.2,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=1909637609"
+    },
+    {
+      "customer_id": "228-737-1180",
+      "customer_id_fmt": "228-737-1180",
+      "name": "Wilson Orthodontics",
+      "budget": 1500.0,
+      "mtd_spend": 538.78,
+      "clicks": 20,
+      "conversions": 3.0,
+      "cost_per_conv": 179.59,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=2287371180"
+    },
+    {
+      "customer_id": "618-547-4348",
+      "customer_id_fmt": "618-547-4348",
+      "name": "Kinser Orthodontics",
+      "budget": 1200.0,
+      "mtd_spend": 468.79,
+      "clicks": 47,
+      "conversions": 4.0,
+      "cost_per_conv": 117.2,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=6185474348"
+    },
+    {
+      "customer_id": "404-882-0591",
+      "customer_id_fmt": "404-882-0591",
+      "name": "Radical Wellness",
+      "budget": 1750.0,
+      "mtd_spend": 430.57,
+      "clicks": 37,
+      "conversions": 0.0,
+      "cost_per_conv": null,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=4048820591"
+    },
+    {
+      "customer_id": "663-156-7354",
+      "customer_id_fmt": "663-156-7354",
+      "name": "Infinity Dental Wellness",
+      "budget": 1000.0,
+      "mtd_spend": 409.22,
+      "clicks": 25,
+      "conversions": 0.0,
+      "cost_per_conv": null,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=6631567354"
+    },
+    {
+      "customer_id": "831-596-3231",
+      "customer_id_fmt": "831-596-3231",
+      "name": "Green Dentistry",
+      "budget": 1000.0,
+      "mtd_spend": 379.25,
+      "clicks": 36,
+      "conversions": 1.0,
+      "cost_per_conv": 379.25,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=8315963231"
+    },
+    {
+      "customer_id": "968-866-4835",
+      "customer_id_fmt": "968-866-4835",
+      "name": "Signature Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 367.39,
+      "clicks": 24,
+      "conversions": 4.0,
+      "cost_per_conv": 91.85,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=9688664835"
+    },
+    {
+      "customer_id": "653-760-9235",
+      "customer_id_fmt": "653-760-9235",
+      "name": "Elite Dental & Wellness",
+      "budget": 1000.0,
+      "mtd_spend": 364.23,
+      "clicks": 43,
+      "conversions": 3.0,
+      "cost_per_conv": 121.41,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=6537609235"
+    },
+    {
+      "customer_id": "366-161-4897",
+      "customer_id_fmt": "366-161-4897",
+      "name": "Bliss Family Dental",
+      "budget": 1000.0,
+      "mtd_spend": 362.29,
+      "clicks": 17,
+      "conversions": 2.0,
+      "cost_per_conv": 181.15,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3661614897"
+    },
+    {
+      "customer_id": "434-721-6443",
+      "customer_id_fmt": "434-721-6443",
+      "name": "Larson Family Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 359.39,
+      "clicks": 16,
+      "conversions": 0.0,
+      "cost_per_conv": null,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=4347216443"
+    },
+    {
+      "customer_id": "627-975-3527",
+      "customer_id_fmt": "627-975-3527",
+      "name": "Plattsburgh & Potsdam Orthodontics",
+      "budget": 750.0,
+      "mtd_spend": 356.94,
+      "clicks": 16,
+      "conversions": 4.0,
+      "cost_per_conv": 89.23,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=6279753527"
+    },
+    {
+      "customer_id": "263-870-5976",
+      "customer_id_fmt": "263-870-5976",
+      "name": "Downtown Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 354.39,
+      "clicks": 93,
+      "conversions": 3.0,
+      "cost_per_conv": 118.13,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=2638705976"
+    },
+    {
+      "customer_id": "128-808-4876",
+      "customer_id_fmt": "128-808-4876",
+      "name": "Benkovich Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 352.98,
+      "clicks": 21,
+      "conversions": 3.0,
+      "cost_per_conv": 117.66,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=1288084876"
+    },
+    {
+      "customer_id": "371-592-8293",
+      "customer_id_fmt": "371-592-8293",
+      "name": "Refined Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 345.0,
+      "clicks": 26,
+      "conversions": 0.0,
+      "cost_per_conv": null,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3715928293"
+    },
+    {
+      "customer_id": "374-866-1229",
+      "customer_id_fmt": "374-866-1229",
+      "name": "Payne Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 339.32,
+      "clicks": 25,
+      "conversions": 2.0,
+      "cost_per_conv": 169.66,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3748661229"
+    },
+    {
+      "customer_id": "760-094-0037",
+      "customer_id_fmt": "760-094-0037",
+      "name": "Chang Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 338.98,
+      "clicks": 22,
+      "conversions": 0.0,
+      "cost_per_conv": null,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=7600940037"
+    },
+    {
+      "customer_id": "115-993-1545",
+      "customer_id_fmt": "115-993-1545",
+      "name": "Brodie Bowman Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 337.99,
+      "clicks": 24,
+      "conversions": 4.0,
+      "cost_per_conv": 84.5,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=1159931545"
+    },
+    {
+      "customer_id": "376-441-9598",
+      "customer_id_fmt": "376-441-9598",
+      "name": "Greeneville Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 325.58,
+      "clicks": 25,
+      "conversions": 4.0,
+      "cost_per_conv": 81.44,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3764419598"
+    },
+    {
+      "customer_id": "974-640-2609",
+      "customer_id_fmt": "974-640-2609",
+      "name": "Cochran Orthodontics",
+      "budget": 1000.0,
+      "mtd_spend": 325.56,
+      "clicks": 46,
+      "conversions": 6.0,
+      "cost_per_conv": 54.26,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=9746402609"
+    },
+    {
+      "customer_id": "599-087-8501",
+      "customer_id_fmt": "599-087-8501",
+      "name": "Superior Orthodontics",
+      "budget": 850.0,
+      "mtd_spend": 321.79,
+      "clicks": 43,
+      "conversions": 2.0,
+      "cost_per_conv": 160.9,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=5990878501"
+    },
+    {
+      "customer_id": "973-816-3388",
+      "customer_id_fmt": "973-816-3388",
+      "name": "Uptown Orthodontics",
+      "budget": 1500.0,
+      "mtd_spend": 306.82,
+      "clicks": 38,
+      "conversions": 5.0,
+      "cost_per_conv": 61.36,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=9738163388"
+    },
+    {
+      "customer_id": "119-735-7988",
+      "customer_id_fmt": "119-735-7988",
+      "name": "Havasu Orthodontics",
+      "budget": 700.0,
+      "mtd_spend": 244.05,
+      "clicks": 28,
+      "conversions": 8.0,
+      "cost_per_conv": 30.52,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=1197357988"
+    }
+  ]
+}

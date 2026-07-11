@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OrthoBoost — Ads Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0f1420;--panel:#171e2e;--panel2:#1e2740;--line:#2a3350;--txt:#e8ecf5;
+    --muted:#8b95ad;--accent:#4f8cff;--good:#37c98b;--warn:#f5b74e;--bad:#f0616d;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:1200px;margin:0 auto;padding:28px 22px 60px;}
+  header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+  h1{font-size:22px;margin:0;} h1 span{color:var(--accent);}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px;}
+  .banner{background:rgba(79,140,255,.10);border:1px solid rgba(79,140,255,.35);color:#bcd2ff;
+    border-radius:12px;padding:12px 16px;font-size:13px;margin-bottom:20px;}
+  .banner code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:5px;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px;}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px;}
+  .kpi .val{font-size:26px;font-weight:600;margin-top:6px;} .kpi .note{font-size:12px;margin-top:5px;}
+  .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;}
+  .pill.good{background:rgba(55,201,139,.15);color:var(--good);}
+  .pill.warn{background:rgba(245,183,78,.15);color:var(--warn);}
+  .pill.bad{background:rgba(240,97,109,.15);color:var(--bad);}
+  .pill.neutral{background:rgba(139,149,173,.15);color:var(--muted);}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:22px;}
+  section h2{font-size:15px;margin:0 0 4px;} section .desc{color:var(--muted);font-size:12.5px;margin:0 0 16px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);white-space:nowrap;}
+  th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;}
+  td.num,th.num{text-align:right;} tr:last-child td{border-bottom:none;}
+  .practice{font-weight:600;} .cid{color:var(--muted);font-size:11.5px;}
+  a{color:var(--accent);text-decoration:none;} a:hover{text-decoration:underline;}
+  .budget-input{width:96px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+    color:var(--txt);padding:6px 8px;font-size:13px;text-align:right;font-family:inherit;}
+  .budget-input:focus{outline:none;border-color:var(--accent);}
+  .save-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;
+    font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .save-btn:hover{filter:brightness(1.08);}
+  .save-btn:disabled{background:var(--panel2);color:var(--muted);cursor:default;filter:none;}
+  #saveState.dirty{color:var(--warn);}
+  .bar{position:relative;height:9px;background:var(--panel2);border-radius:6px;overflow:hidden;min-width:120px;}
+  .bar > i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;}
+  .bar .expected{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--txt);opacity:.55;}
+  .pace-lbl{font-size:11.5px;color:var(--muted);margin-top:4px;}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:14px;}
+  .legend b{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px;}
+  .chart-box{height:260px;} .muted-note{color:var(--muted);font-size:12px;}
+  footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px;}
+  @media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Ortho<span>Boost</span> · Ads Dashboard</h1>
+      <div class="sub" id="periodSub">Loading…</div></div>
+    <div class="sub" id="genSub"></div>
+  </header>
+
+  <div id="banner" class="banner" style="display:none"></div>
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+      <h2>Budget pacing</h2>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span id="saveState" class="pace-lbl"></span>
+        <button id="saveBtn" class="save-btn">Reset to sheet</button>
+      </div>
+    </div>
+    <p class="desc">Live clients from the master sheet (<code>ad_account_mapping.xlsx</code>), Google Ads only. Budgets are managed in that sheet's <b>Monthly Budget (Google Ads)</b> column. You can type a <b>what-if</b> budget in the column below to test a scenario — it's this-browser-only and doesn't change the sheet; click <b>Reset to sheet</b> to clear. Tick on each bar = expected spend today; projected EOM assumes current daily run-rate.</p>
+    <div style="overflow-x:auto;">
+      <table id="pacingTable"><thead><tr>
+        <th>Client</th><th class="num">Budget</th><th class="num">Spent (MTD)</th>
+        <th>Pace</th><th class="num">Proj. EOM</th><th class="num">Conv.</th>
+        <th class="num">Cost/Conv</th><th>Status</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+    <div class="legend">
+      <span><b style="background:var(--good)"></b>On pace (90–105%)</span>
+      <span><b style="background:var(--warn)"></b>Under (&lt;90%)</span>
+      <span><b style="background:var(--bad)"></b>Over (&gt;105%)</span>
+      <span>| tick = expected spend today</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projected end-of-month spend vs. budget</h2>
+    <p class="desc">Where each account lands at current run-rate. Set budgets above to populate.</p>
+    <div class="chart-box"><canvas id="projChart"></canvas></div>
+  </section>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const fmt$=n=>"$"+Math.round(n).toLocaleString();
+const fmt$2=n=>"$"+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const LS_KEY="orthoboost_whatif_v1";
+// Budgets are managed in the master sheet (ad_account_mapping.xlsx) and read
+// here from the generated data/budgets.json. In-browser edits are ephemeral
+// "what-if" overrides (this browser only) for quick pacing scenarios — they do
+// NOT change the sheet. Refresh the sheet + rerun the build script to persist.
+let FILE_BUDGETS={},BUDGET_META=null;
+function loadOverrides(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{};}catch(e){return{};}}
+function saveOverride(cid,val){const b=loadOverrides();b[cid]=val>0?val:0;
+  localStorage.setItem(LS_KEY,JSON.stringify(b));}
+// Effective budgets = sheet values, with any local what-if edits layered on top.
+function loadBudgets(){const eff={...FILE_BUDGETS},ov=loadOverrides();
+  for(const k in ov){if(ov[k]>0)eff[k]=ov[k];else delete eff[k];}return eff;}
+function hasWhatIf(){const ov=loadOverrides();
+  return Object.keys(ov).some(k=>(ov[k]||0)!==(FILE_BUDGETS[k]||0));}
+function saveBudget(cid,val){saveOverride(cid,val);}
+function paceClass(r){return r>1.05?"bad":r<0.90?"warn":"good";}
+function keyOf(a){return a.customer_id||a.name;}
+let DATA=null,chart=null,AWAIT=false;
+
+Promise.all([
+  fetch("data/dashboard.json?_="+Date.now()).then(r=>r.json()),
+  fetch("data/budgets.json?_="+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null),
+]).then(([d,b])=>{
+  DATA=d;
+  // Prefer the budget embedded on each account (from the sheet); fall back to budgets.json.
+  d.accounts.forEach(a=>{if(a.budget>0)FILE_BUDGETS[keyOf(a)]=a.budget;});
+  if(b&&b.budgets){BUDGET_META=b;
+    for(const cid in b.budgets){const m=b.budgets[cid].monthly;if(m>0&&!(FILE_BUDGETS[cid]>0))FILE_BUDGETS[cid]=m;}}
+  render();
+}).catch(e=>{$("#periodSub").textContent="Could not load data/dashboard.json";console.error(e);});
+
+// Clear all what-if overrides, reverting to the budgets from the sheet.
+function resetWhatIf(){localStorage.setItem(LS_KEY,"{}");render();}
+
+function render(){
+  const d=DATA,p=d.period,frac=p.month_fraction_elapsed;AWAIT=!!d.awaiting_refresh;
+  const now=new Date(d.generated_at);
+  $("#periodSub").textContent=`${p.month_label} · Day ${p.day_of_month} of ${p.days_in_month} · ${d.accounts.length} active accounts`;
+  $("#genSub").textContent="Updated "+now.toLocaleString();
+  if(AWAIT){$("#banner").style.display="block";
+    $("#banner").innerHTML='Showing your live active roster. Spend &amp; KPIs are blank until the first data pull — run <code>python build_dashboard_data.py</code> from the repo, then reload.';}
+  const budgets=loadBudgets();
+  const tbody=$("#pacingTable tbody");
+  const rows=d.accounts.map(a=>{
+    const k=keyOf(a),budget=budgets[k]||0,noData=AWAIT||!(a.mtd_spend>0);
+    const expected=budget*frac,ratio=expected>0?a.mtd_spend/expected:0,projected=frac>0?a.mtd_spend/frac:0;
+    const hasB=budget>0;
+    let cls,label;
+    if(noData){cls="neutral";label="No data yet";}
+    else if(!hasB){cls="neutral";label="Set budget";}
+    else{cls=paceClass(ratio);label=cls==="good"?"On pace":cls==="warn"?"Under":"Over";}
+    const barColor=cls==="good"?"var(--good)":cls==="warn"?"var(--warn)":cls==="bad"?"var(--bad)":"var(--muted)";
+    const spentPct=hasB&&!noData?Math.min(100,(a.mtd_spend/budget)*100):0;
+    const expPct=Math.min(100,frac*100);
+    return {a,ratio,hasB,noData,projected,
+      html:`<tr>
+        <td><div class="practice">${a.name}</div>
+            <div class="cid">${a.customer_id?`<a href="${a.google_ads_url}" target="_blank">${a.customer_id}</a>`:'—'}</div></td>
+        <td class="num"><input class="budget-input" type="number" min="0" step="100"
+             data-k="${k}" value="${hasB?budget:''}" placeholder="—"></td>
+        <td class="num">${noData?'—':fmt$2(a.mtd_spend)}</td>
+        <td><div class="bar"><i style="width:${spentPct}%;background:${barColor}"></i>
+            <span class="expected" style="left:${expPct}%"></span></div>
+          <div class="pace-lbl">${noData?'awaiting data':hasB?Math.round(ratio*100)+"% of expected":"set budget"}</div></td>
+        <td class="num">${noData||!hasB?'—':fmt$(projected)}</td>
+        <td class="num">${a.conversions??'—'}</td>
+        <td class="num">${a.cost_per_conv!=null?fmt$2(a.cost_per_conv):'—'}</td>
+        <td><span class="pill ${cls}">${label}</span></td>
+      </tr>`};
+  });
+  rows.sort((x,y)=>(y.hasB-x.hasB)||(Math.abs(y.ratio-1)-Math.abs(x.ratio-1)));
+  tbody.innerHTML=rows.map(r=>r.html).join("");
+  tbody.querySelectorAll(".budget-input").forEach(inp=>inp.addEventListener("change",e=>{
+    saveBudget(e.target.dataset.k,parseFloat(e.target.value)||0);render();}));
+  renderKpis(d,frac,budgets);renderChart(d,frac,budgets);
+  updateSaveState();
+  $("#footer").textContent="Budgets managed in ad_account_mapping.xlsx · run build_dashboard_data.py (or the daily Action) to refresh spend + budgets";
+}
+function updateSaveState(){
+  const dirty=hasWhatIf(),el=$("#saveState"),btn=$("#saveBtn");
+  el.textContent=dirty?"● what-if active (not saved to sheet)":"showing sheet budgets";
+  el.className="pace-lbl"+(dirty?" dirty":"");
+  btn.disabled=!dirty;
+}
+document.addEventListener("click",e=>{if(e.target&&e.target.id==="saveBtn")resetWhatIf();});
+function renderKpis(d,frac,budgets){
+  let tb=0,ts=0,off=0,budgeted=0;
+  d.accounts.forEach(a=>{const k=keyOf(a),bud=budgets[k]||0;ts+=(a.mtd_spend||0);
+    if(bud>0){tb+=bud;budgeted++;if(a.mtd_spend>0){const r=a.mtd_spend/(bud*frac);if(r>1.05||r<0.90)off++;}}});
+  const expected=tb*frac,totalRatio=expected>0?ts/expected:0,projected=frac>0?ts/frac:0,projOver=projected-tb;
+  const showPace=tb>0&&ts>0;
+  const kpis=[
+    {label:"Monthly budget",val:tb>0?fmt$(tb):"—",note:`${budgeted}/${d.accounts.length} accounts budgeted`},
+    {label:"Spent month-to-date",val:ts>0?fmt$(ts):"—",
+      note:showPace?`<span class="pill ${paceClass(totalRatio)}">${Math.round(totalRatio*100)}% of expected</span>`:`<span class="muted-note">${AWAIT?'awaiting first pull':'set budgets to pace'}</span>`},
+    {label:"Projected end-of-month",val:ts>0?fmt$(projected):"—",
+      note:showPace?(projOver>=0?`<span class="pill bad">${fmt$(projOver)} over</span>`:`<span class="pill good">${fmt$(-projOver)} under</span>`):`<span class="muted-note">—</span>`},
+    {label:"Off pace",val:showPace?`${off}`:"—",note:`<span class="muted-note">of ${budgeted} budgeted</span>`}
+  ];
+  $("#kpis").innerHTML=kpis.map(k=>`<div class="kpi"><div class="label">${k.label}</div>
+     <div class="val">${k.val}</div><div class="note">${k.note||""}</div></div>`).join("");
+}
+function renderChart(d,frac,budgets){
+  const withData=d.accounts.filter(a=>a.mtd_spend>0);
+  const src=withData.length?withData:d.accounts.slice(0,12);
+  const labels=src.map(a=>a.name);
+  const proj=src.map(a=>frac>0?(a.mtd_spend||0)/frac:0);
+  const bud=src.map(a=>budgets[keyOf(a)]||0);
+  const colors=proj.map((v,i)=>bud[i]<=0?"#8b95ad":v>bud[i]*1.05?"#f0616d":v<bud[i]*0.9?"#f5b74e":"#37c98b");
+  if(chart)chart.destroy();
+  chart=new Chart($("#projChart"),{type:"bar",
+    data:{labels,datasets:[{label:"Projected EOM",data:proj,backgroundColor:colors},
+      {label:"Budget",type:"line",data:bud.map(v=>v||null),borderColor:"#e8ecf5",
+       borderDash:[5,4],pointRadius:0,borderWidth:1.5,spanGaps:true}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:"#8b95ad"}}},
+      scales:{x:{ticks:{color:"#8b95ad",maxRotation:50,font:{size:9}},grid:{display:false}},
+        y:{ticks:{color:"#8b95ad",callback:v=>"$"+(v/1000)+"k"},grid:{color:"#2a3350"}}}}});
+}
+</script>
+</body>
+</html>
