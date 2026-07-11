@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-11T22:34:35Z",
+  "generated_at": "2026-07-11T23:22:34Z",
   "awaiting_refresh": false,
   "budget_source": "ad_account_mapping.xlsx",
   "period": {
@@ -25,10 +25,10 @@
       "customer_id_fmt": "753-548-3897",
       "name": "Smiles Orthodontics",
       "budget": 2000.0,
-      "mtd_spend": 712.29,
-      "clicks": 29,
+      "mtd_spend": 750.78,
+      "clicks": 33,
       "conversions": 1.0,
-      "cost_per_conv": 712.29,
+      "cost_per_conv": 750.78,
       "google_ads_url": "https://ads.google.com/aw/overview?ocid=7535483897"
     },
     {
@@ -87,6 +87,17 @@
       "google_ads_url": "https://ads.google.com/aw/overview?ocid=6631567354"
     },
     {
+      "customer_id": "366-161-4897",
+      "customer_id_fmt": "366-161-4897",
+      "name": "Bliss Family Dental",
+      "budget": 1000.0,
+      "mtd_spend": 387.85,
+      "clicks": 19,
+      "conversions": 2.0,
+      "cost_per_conv": 193.93,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3661614897"
+    },
+    {
       "customer_id": "831-596-3231",
       "customer_id_fmt": "831-596-3231",
       "name": "Green Dentistry",
@@ -102,10 +113,10 @@
       "customer_id_fmt": "968-866-4835",
       "name": "Signature Orthodontics",
       "budget": 1000.0,
-      "mtd_spend": 367.39,
-      "clicks": 24,
+      "mtd_spend": 374.31,
+      "clicks": 25,
       "conversions": 4.0,
-      "cost_per_conv": 91.85,
+      "cost_per_conv": 93.58,
       "google_ads_url": "https://ads.google.com/aw/overview?ocid=9688664835"
     },
     {
@@ -113,22 +124,22 @@
       "customer_id_fmt": "653-760-9235",
       "name": "Elite Dental & Wellness",
       "budget": 1000.0,
-      "mtd_spend": 364.23,
-      "clicks": 43,
+      "mtd_spend": 370.12,
+      "clicks": 44,
       "conversions": 3.0,
-      "cost_per_conv": 121.41,
+      "cost_per_conv": 123.37,
       "google_ads_url": "https://ads.google.com/aw/overview?ocid=6537609235"
     },
     {
-      "customer_id": "366-161-4897",
-      "customer_id_fmt": "366-161-4897",
-      "name": "Bliss Family Dental",
+      "customer_id": "371-592-8293",
+      "customer_id_fmt": "371-592-8293",
+      "name": "Refined Orthodontics",
       "budget": 1000.0,
-      "mtd_spend": 362.29,
-      "clicks": 17,
-      "conversions": 2.0,
-      "cost_per_conv": 181.15,
-      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3661614897"
+      "mtd_spend": 369.56,
+      "clicks": 27,
+      "conversions": 0.0,
+      "cost_per_conv": null,
+      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3715928293"
     },
     {
       "customer_id": "434-721-6443",
@@ -173,17 +184,6 @@
       "conversions": 3.0,
       "cost_per_conv": 117.66,
       "google_ads_url": "https://ads.google.com/aw/overview?ocid=1288084876"
-    },
-    {
-      "customer_id": "371-592-8293",
-      "customer_id_fmt": "371-592-8293",
-      "name": "Refined Orthodontics",
-      "budget": 1000.0,
-      "mtd_spend": 345.0,
-      "clicks": 26,
-      "conversions": 0.0,
-      "cost_per_conv": null,
-      "google_ads_url": "https://ads.google.com/aw/overview?ocid=3715928293"
     },
     {
       "customer_id": "374-866-1229",
