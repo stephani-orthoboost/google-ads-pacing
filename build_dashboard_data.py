@@ -41,7 +41,9 @@ MASTER_SHEET = os.environ.get("MASTER_SHEET") or os.path.join(
 MASTER_TAB = "Client Overview"
 
 QUERY = """
-    SELECT metrics.cost_micros, metrics.clicks, metrics.conversions
+    SELECT metrics.cost_micros, metrics.clicks, metrics.conversions,
+           metrics.search_impression_share, metrics.search_rank_lost_impression_share,
+           metrics.search_budget_lost_impression_share
     FROM customer
     WHERE segments.date DURING THIS_MONTH
 """
@@ -158,11 +160,17 @@ def main():
         client = GoogleAdsClient.load_from_dict(config)
         ga = client.get_service("GoogleAdsService")
         cost = clicks = conv = 0.0
+        search_is = search_lost_rank = search_lost_budget = None
         try:
             for row in ga.search(customer_id=customer_id, query=QUERY):
                 cost += row.metrics.cost_micros / 1_000_000
                 clicks += row.metrics.clicks
                 conv += row.metrics.conversions
+                # Search-only metrics; the API returns one pre-aggregated row
+                # for the date range, so just take its values directly.
+                search_is = row.metrics.search_impression_share
+                search_lost_rank = row.metrics.search_rank_lost_impression_share
+                search_lost_budget = row.metrics.search_budget_lost_impression_share
         except GoogleAdsException as e:
             print(f"  [warn] {name} ({customer_id}): {e.error.code().name}")
 
@@ -175,6 +183,9 @@ def main():
             "clicks": int(clicks),
             "conversions": round(conv, 1),
             "cost_per_conv": round(cost / conv, 2) if conv else None,
+            "search_impression_share": round(search_is, 4) if search_is is not None else None,
+            "search_lost_is_rank": round(search_lost_rank, 4) if search_lost_rank is not None else None,
+            "search_lost_is_budget": round(search_lost_budget, 4) if search_lost_budget is not None else None,
             "google_ads_url": f"https://ads.google.com/aw/overview?ocid={customer_id}",
         })
         b = f"budget ${budget:,.0f}" if budget else "no budget"
