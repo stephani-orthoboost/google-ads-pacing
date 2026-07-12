@@ -116,6 +116,7 @@ const COLS=[
   {key:"mtd",label:"MTD",num:true,val:r=>r.a.mtd_spend||0},
   {key:"proj",label:"Projected",num:true,val:r=>r.projected||0},
   {key:"budget",label:"Budget",num:true,val:r=>r.budget||0},
+  {key:"sugDaily",label:"Suggested Daily",num:true,val:r=>r.sugDaily==null?-1:r.sugDaily},
   {key:"conv",label:"Conv.",num:true,val:r=>r.a.conversions||0},
   {key:"cpc",label:"Cost/Conv",num:true,val:r=>(r.a.cost_per_conv==null?-1:r.a.cost_per_conv)},
 ];
@@ -138,6 +139,10 @@ Promise.all([
 function resetWhatIf(){localStorage.setItem(LS_KEY,"{}");render();}
 
 function buildRows(d,frac,budgets){
+  const p=d.period;
+  // Days left including today, so "suggested daily" tells you what to spend
+  // from today onward to land exactly on budget.
+  const daysLeft=Math.max(1,p.days_in_month-p.day_of_month+1);
   return d.accounts.map(a=>{
     const k=keyOf(a),budget=budgets[k]||0,noData=AWAIT||!(a.mtd_spend>0);
     const expected=budget*frac,ratio=expected>0?a.mtd_spend/expected:0,projected=frac>0?a.mtd_spend/frac:0;
@@ -149,7 +154,9 @@ function buildRows(d,frac,budgets){
       statusRank=cls==="bad"?0:cls==="warn"?1:2;}
     // sortRatio: rows without a usable ratio sink to the bottom.
     const sortRatio=(hasB&&!noData)?ratio:-1;
-    return {a,k,budget,hasB,noData,ratio,projected,cls,label,statusRank,sortRatio};
+    // Remaining budget spread over the days left in the month.
+    const sugDaily=hasB?Math.max(0,budget-(a.mtd_spend||0))/daysLeft:null;
+    return {a,k,budget,hasB,noData,ratio,projected,cls,label,statusRank,sortRatio,sugDaily};
   });
 }
 function rowHtml(r,frac){
@@ -168,6 +175,7 @@ function rowHtml(r,frac){
     <td class="num">${r.noData||!r.hasB?'—':fmt$(r.projected)}</td>
     <td class="num"><input class="budget-input" type="number" min="0" step="100"
          data-k="${r.k}" value="${r.hasB?r.budget:''}" placeholder="—"></td>
+    <td class="num">${r.sugDaily==null?'—':fmt$(r.sugDaily)}</td>
     <td class="num">${a.conversions??'—'}</td>
     <td class="num">${a.cost_per_conv!=null?fmt$2(a.cost_per_conv):'—'}</td>
   </tr>`;
