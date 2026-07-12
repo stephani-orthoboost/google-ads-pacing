@@ -1,0 +1,128 @@
+{
+  "_comment": "STAG Keyword Combination Generator config — committed source of truth. Edit in the page and click 'Save' to download an updated copy to commit, or edit this file directly. Cities intentionally start empty (research tool — paste cities per session).",
+  "themes": [
+    {
+      "id": "orthodontist-generic",
+      "name": "Orthodontist (generic)",
+      "category": "core",
+      "crossesLocation": "yes",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": "primary generic/location catch-all"
+    },
+    {
+      "id": "braces",
+      "name": "Braces",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": ""
+    },
+    {
+      "id": "ceramic-clear-braces",
+      "name": "Ceramic/Clear Braces",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": ""
+    },
+    {
+      "id": "invisalign",
+      "name": "Invisalign",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": "branded term, kept separate from generic aligners"
+    },
+    {
+      "id": "clear-aligners",
+      "name": "Clear Aligners",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": "generic/non-branded"
+    },
+    {
+      "id": "retainers",
+      "name": "Retainers",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": ""
+    },
+    {
+      "id": "adult-orthodontics",
+      "name": "Adult Orthodontics",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": ""
+    },
+    {
+      "id": "kids-early-orthodontics",
+      "name": "Kids/Early Orthodontics (Phase 1)",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": ""
+    },
+    {
+      "id": "teen-orthodontics",
+      "name": "Teen Orthodontics",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": true,
+      "defaultMatchType": "exact+phrase",
+      "notes": ""
+    },
+    {
+      "id": "airway-orthodontics",
+      "name": "Airway Orthodontics",
+      "category": "core",
+      "crossesLocation": "conditional",
+      "includeNearMe": false,
+      "defaultMatchType": "exact",
+      "notes": "terminology not standardized yet — validate term variants (airway orthodontics, myofunctional orthodontics, sleep-focused orthodontics) per client before treating as settled"
+    }
+  ],
+  "modifiers": [
+    {
+      "id": "cost",
+      "name": "Cost",
+      "category": "modifier",
+      "crossesLocation": "no",
+      "includeNearMe": false,
+      "defaultMatchType": "exact+phrase",
+      "parentThemeIds": ["orthodontist-generic","braces","ceramic-clear-braces","invisalign","clear-aligners","retainers","adult-orthodontics","kids-early-orthodontics","teen-orthodontics","airway-orthodontics"],
+      "notes": ""
+    },
+    {
+      "id": "financing",
+      "name": "Financing",
+      "category": "modifier",
+      "crossesLocation": "no",
+      "includeNearMe": false,
+      "defaultMatchType": "exact+phrase",
+      "parentThemeIds": ["orthodontist-generic","braces","ceramic-clear-braces","invisalign","clear-aligners","retainers","adult-orthodontics","kids-early-orthodontics","teen-orthodontics","airway-orthodontics"],
+      "notes": ""
+    },
+    {
+      "id": "insurance",
+      "name": "Insurance",
+      "category": "modifier",
+      "crossesLocation": "no",
+      "includeNearMe": false,
+      "defaultMatchType": "exact+phrase",
+      "parentThemeIds": ["orthodontist-generic","braces","ceramic-clear-braces","invisalign","clear-aligners","retainers","adult-orthodontics","kids-early-orthodontics","teen-orthodontics","airway-orthodontics"],
+      "notes": ""
+    }
+  ],
+  "cities": []
+}

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OrthoBoost — Keyword Generator</title>
+<style>
+  :root{--bg:#f4f6fa;--panel:#ffffff;--panel2:#eef1f6;--line:#e3e7ef;--txt:#1c2434;
+    --muted:#6b7488;--accent:#2f6fed;--good:#1a9e63;--warn:#c07d0a;--bad:#d6303f;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:1200px;margin:0 auto;padding:28px 22px 60px;}
+  header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:6px;}
+  h1{font-size:22px;margin:0;} h1 span{color:var(--accent);}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px;}
+  .pagenav{display:flex;gap:16px;margin:10px 0 22px;font-size:13px;border-bottom:1px solid var(--line);padding-bottom:10px;}
+  .pagenav a{color:var(--muted);font-weight:600;text-decoration:none;padding:2px 0;border-bottom:2px solid transparent;}
+  .pagenav a:hover{color:var(--txt);}
+  .pagenav a.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;}
+  .pill.good{background:rgba(26,158,99,.14);color:var(--good);}
+  .pill.warn{background:rgba(192,125,10,.16);color:var(--warn);}
+  .pill.bad{background:rgba(214,48,63,.13);color:var(--bad);}
+  .pill.neutral{background:rgba(107,116,136,.15);color:var(--muted);}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:22px;
+    box-shadow:0 1px 2px rgba(16,24,52,.04);}
+  section h2{font-size:15px;margin:0 0 4px;} section .desc{color:var(--muted);font-size:12.5px;margin:0 0 16px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{text-align:left;padding:10px 9px;border-bottom:1px solid var(--line);}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+  th.sortable{cursor:pointer;user-select:none;} th.sortable:hover{color:var(--txt);}
+  th .arr{opacity:.4;font-size:9px;margin-left:3px;}
+  th.sorted{color:var(--txt);} th.sorted .arr{opacity:1;color:var(--accent);}
+  tr:last-child td{border-bottom:none;}
+  a{color:var(--accent);}
+  input[type=text],select,textarea{background:var(--panel2);border:1px solid var(--line);border-radius:7px;
+    color:var(--txt);padding:6px 8px;font-size:13px;font-family:inherit;}
+  input[type=text]:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+  .name-input{width:100%;min-width:150px;}
+  .notes-input{width:100%;min-width:160px;}
+  td.center{text-align:center;}
+  .row-actions{display:flex;gap:6px;}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 13px;
+    font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;}
+  .btn:hover{filter:brightness(1.06);}
+  .btn.secondary{background:var(--panel2);color:var(--txt);border:1px solid var(--line);}
+  .btn.danger{background:transparent;color:var(--bad);border:1px solid rgba(214,48,63,.35);padding:5px 10px;font-size:12px;}
+  .btn.danger:hover{background:rgba(214,48,63,.08);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .state-lbl{font-size:12px;color:var(--muted);}
+  .state-lbl.dirty{color:var(--warn);}
+  .chip-row{display:flex;flex-wrap:wrap;gap:6px;max-width:420px;}
+  .chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11.5px;
+    border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;user-select:none;}
+  .chip.active{background:rgba(47,111,237,.12);border-color:rgba(47,111,237,.4);color:var(--accent);font-weight:600;}
+  .city-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 8px 5px 12px;border-radius:999px;
+    background:var(--panel2);border:1px solid var(--line);font-size:12.5px;margin:3px 6px 3px 0;}
+  .city-chip button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0 2px;}
+  .city-chip button:hover{color:var(--bad);}
+  .city-add{display:flex;gap:8px;margin-top:12px;}
+  .city-add input{flex:1;max-width:260px;}
+  .city-list{margin-top:4px;}
+  .empty-note{color:var(--muted);font-size:12.5px;font-style:italic;padding:6px 0;}
+  .tabs{display:flex;gap:6px;margin-bottom:14px;}
+  .tab-btn{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 14px;
+    font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;}
+  .tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .output-pre{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+    font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.7;white-space:pre-wrap;
+    max-height:420px;overflow-y:auto;}
+  .count-badge{font-size:12px;color:var(--muted);margin-bottom:10px;}
+  .out-actions{display:flex;gap:10px;margin-bottom:14px;}
+  footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Ortho<span>Boost</span> · Keyword Generator</h1>
+      <div class="sub">STAG combination research tool — build a copy-ready keyword list to check volume in Keyword Planner before deciding what becomes an ad group.</div></div>
+  </header>
+  <nav class="pagenav">
+    <a href="index.html">Budget Pacing</a>
+    <a href="keyword-generator.html" class="active">Keyword Generator</a>
+  </nav>
+
+  <section>
+    <div class="toolbar">
+      <h2 style="margin:0;">Core themes</h2>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span id="stateLbl" class="state-lbl"></span>
+        <button class="btn secondary" id="resetBtn">Reset to committed file</button>
+        <button class="btn" id="saveBtn">Save</button>
+      </div>
+    </div>
+    <p class="desc">Standalone topics. <b>Crosses location</b> controls whether it's combined with every city below ("conditional" still generates the combination — it's a flag for later human review, not a reason to skip). <b>Near me</b> adds one extra "{theme} near me" line. Changes save to this browser only until you click <b>Save</b> to download an updated config to commit.</p>
+    <div style="overflow-x:auto;">
+      <table id="themesTable"><thead><tr>
+        <th>Name</th><th>Crosses location</th><th class="center">Near me</th><th>Match type</th><th>Notes</th><th></th>
+      </tr></thead><tbody id="themesBody"></tbody></table>
+    </div>
+    <button class="btn secondary" id="addThemeBtn" style="margin-top:12px;">+ Add core theme</button>
+  </section>
+
+  <section>
+    <h2>Modifiers</h2>
+    <p class="desc">Attach to one or more core themes above (click a chip to toggle). Output is "{core theme} {modifier}", e.g. "Invisalign Cost". Follows its own <b>crosses location</b> rule — default "no" means the bare combination only, not crossed with cities.</p>
+    <div style="overflow-x:auto;">
+      <table id="modifiersTable"><thead><tr>
+        <th>Name</th><th>Crosses location</th><th class="center">Near me</th><th>Match type</th><th>Applies to</th><th>Notes</th><th></th>
+      </tr></thead><tbody id="modifiersBody"></tbody></table>
+    </div>
+    <button class="btn secondary" id="addModifierBtn" style="margin-top:12px;">+ Add modifier</button>
+  </section>
+
+  <section>
+    <h2>Cities</h2>
+    <p class="desc">One flat list — paste the cities you're checking this session, generate, copy into Keyword Planner. Clear and replace for a different client/region.</p>
+    <div class="city-list" id="cityList"></div>
+    <div class="city-add">
+      <input type="text" id="cityInput" placeholder="Add a city and press Enter">
+      <button class="btn secondary" id="addCityBtn">Add</button>
+      <button class="btn danger" id="clearCitiesBtn">Clear all</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Results</h2>
+    <p class="desc">Regenerates automatically whenever themes, modifiers, or cities change.</p>
+    <div class="count-badge" id="countBadge"></div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="flat">Flat list</button>
+      <button class="tab-btn" data-tab="detail">Detail table</button>
+    </div>
+    <div id="flatView">
+      <div class="out-actions"><button class="btn" id="copyBtn">Copy to clipboard</button></div>
+      <div class="output-pre" id="flatOutput"></div>
+    </div>
+    <div id="detailView" style="display:none;">
+      <div class="out-actions"><button class="btn secondary" id="csvBtn">Export CSV</button></div>
+      <div style="overflow-x:auto;">
+        <table id="detailTable"><thead><tr id="detailHead"></tr></thead><tbody id="detailBody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">Config stored in data/keyword_generator.json · edits save to this browser until you click Save</footer>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const MATCH_TYPES=["exact","exact+phrase"];
+const CROSSES=["yes","conditional","no"];
+const FILE_PATH="data/keyword_generator.json";
+const STORAGE_KEY="orthoboost_stag_draft_v1";
+
+let _committed=null, _state=null;
+
+function deepClone(o){return JSON.parse(JSON.stringify(o));}
+function slugify(name,existingIds){
+  let base=name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"")||"theme";
+  let id=base,n=2;
+  while(existingIds.includes(id)){id=`${base}-${n++}`;}
+  return id;
+}
+
+const dataSource={
+  async init(){
+    const res=await fetch(FILE_PATH+"?_="+Date.now());
+    _committed=await res.json();
+    const draft=localStorage.getItem(STORAGE_KEY);
+    _state=draft?JSON.parse(draft):deepClone(_committed);
+  },
+  getThemes(){return _state.themes;},
+  saveThemes(list){_state.themes=list;this._persist();},
+  getModifiers(){return _state.modifiers;},
+  saveModifiers(list){_state.modifiers=list;this._persist();},
+  getCities(){return _state.cities;},
+  saveCities(list){_state.cities=list;this._persist();},
+  _persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(_state));},
+  isDirty(){return JSON.stringify(_state)!==JSON.stringify(_committed);},
+  resetToCommitted(){localStorage.removeItem(STORAGE_KEY);_state=deepClone(_committed);},
+  downloadConfig(){
+    const out={_comment:_committed._comment,themes:_state.themes,modifiers:_state.modifiers,cities:_state.cities};
+    const blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="keyword_generator.json";
+    document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+    _committed=deepClone(_state);localStorage.removeItem(STORAGE_KEY);
+  }
+};
+
+function updateStateLbl(){
+  const dirty=dataSource.isDirty(),el=$("#stateLbl");
+  el.textContent=dirty?"● unsaved edits (this browser only)":"saved";
+  el.className="state-lbl"+(dirty?" dirty":"");
+}
+
+// ---------- Core themes ----------
+function renderThemes(){
+  const themes=dataSource.getThemes();
+  $("#themesBody").innerHTML=themes.map(t=>`<tr data-id="${t.id}">
+    <td><input type="text" class="name-input" data-field="name" value="${t.name.replace(/"/g,'&quot;')}"></td>
+    <td><select data-field="crossesLocation">${CROSSES.map(c=>`<option value="${c}" ${t.crossesLocation===c?"selected":""}>${c}</option>`).join("")}</select></td>
+    <td class="center"><input type="checkbox" data-field="includeNearMe" ${t.includeNearMe?"checked":""}></td>
+    <td><select data-field="defaultMatchType">${MATCH_TYPES.map(m=>`<option value="${m}" ${t.defaultMatchType===m?"selected":""}>${m}</option>`).join("")}</select></td>
+    <td><input type="text" class="notes-input" data-field="notes" value="${(t.notes||"").replace(/"/g,'&quot;')}"></td>
+    <td><button class="btn danger" data-del="${t.id}">Delete</button></td>
+  </tr>`).join("")||`<tr><td colspan="6" class="empty-note">No core themes yet.</td></tr>`;
+  bindThemeRowEvents();
+}
+function bindThemeRowEvents(){
+  $("#themesBody").querySelectorAll("tr[data-id]").forEach(tr=>{
+    const id=tr.dataset.id;
+    tr.querySelectorAll("[data-field]").forEach(inp=>{
+      inp.addEventListener("change",()=>{
+        const themes=dataSource.getThemes();
+        const t=themes.find(x=>x.id===id);if(!t)return;
+        const field=inp.dataset.field;
+        t[field]=inp.type==="checkbox"?inp.checked:inp.value;
+        dataSource.saveThemes(themes);
+        renderAll();
+      });
+    });
+  });
+  $("#themesBody").querySelectorAll("[data-del]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const id=btn.dataset.del;
+      const themes=dataSource.getThemes().filter(t=>t.id!==id);
+      const modifiers=dataSource.getModifiers().map(m=>({...m,parentThemeIds:(m.parentThemeIds||[]).filter(pid=>pid!==id)}));
+      dataSource.saveThemes(themes);
+      dataSource.saveModifiers(modifiers);
+      renderAll();
+    });
+  });
+}
+$("#addThemeBtn").addEventListener("click",()=>{
+  const themes=dataSource.getThemes();
+  const id=slugify("New theme",themes.map(t=>t.id));
+  themes.push({id,name:"New theme",category:"core",crossesLocation:"conditional",includeNearMe:true,defaultMatchType:"exact+phrase",notes:""});
+  dataSource.saveThemes(themes);
+  renderAll();
+});
+
+// ---------- Modifiers ----------
+function renderModifiers(){
+  const themes=dataSource.getThemes(),modifiers=dataSource.getModifiers();
+  $("#modifiersBody").innerHTML=modifiers.map(m=>`<tr data-id="${m.id}">
+    <td><input type="text" class="name-input" data-field="name" value="${m.name.replace(/"/g,'&quot;')}"></td>
+    <td><select data-field="crossesLocation">${CROSSES.map(c=>`<option value="${c}" ${m.crossesLocation===c?"selected":""}>${c}</option>`).join("")}</select></td>
+    <td class="center"><input type="checkbox" data-field="includeNearMe" ${m.includeNearMe?"checked":""}></td>
+    <td><select data-field="defaultMatchType">${MATCH_TYPES.map(t=>`<option value="${t}" ${m.defaultMatchType===t?"selected":""}>${t}</option>`).join("")}</select></td>
+    <td><div class="chip-row" data-chips>${themes.map(t=>`<span class="chip ${(m.parentThemeIds||[]).includes(t.id)?"active":""}" data-parent="${t.id}">${t.name}</span>`).join("")||'<span class="empty-note">no core themes yet</span>'}</div></td>
+    <td><input type="text" class="notes-input" data-field="notes" value="${(m.notes||"").replace(/"/g,'&quot;')}"></td>
+    <td><button class="btn danger" data-del="${m.id}">Delete</button></td>
+  </tr>`).join("")||`<tr><td colspan="7" class="empty-note">No modifiers yet.</td></tr>`;
+  bindModifierRowEvents();
+}
+function bindModifierRowEvents(){
+  $("#modifiersBody").querySelectorAll("tr[data-id]").forEach(tr=>{
+    const id=tr.dataset.id;
+    tr.querySelectorAll("[data-field]").forEach(inp=>{
+      inp.addEventListener("change",()=>{
+        const modifiers=dataSource.getModifiers();
+        const m=modifiers.find(x=>x.id===id);if(!m)return;
+        const field=inp.dataset.field;
+        m[field]=inp.type==="checkbox"?inp.checked:inp.value;
+        dataSource.saveModifiers(modifiers);
+        renderResultsAndState();
+      });
+    });
+    tr.querySelectorAll("[data-parent]").forEach(chip=>{
+      chip.addEventListener("click",()=>{
+        const modifiers=dataSource.getModifiers();
+        const m=modifiers.find(x=>x.id===id);if(!m)return;
+        const pid=chip.dataset.parent;
+        m.parentThemeIds=m.parentThemeIds||[];
+        const idx=m.parentThemeIds.indexOf(pid);
+        if(idx>=0)m.parentThemeIds.splice(idx,1);else m.parentThemeIds.push(pid);
+        dataSource.saveModifiers(modifiers);
+        renderModifiers();renderResultsAndState();
+      });
+    });
+  });
+  $("#modifiersBody").querySelectorAll("[data-del]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const id=btn.dataset.del;
+      dataSource.saveModifiers(dataSource.getModifiers().filter(m=>m.id!==id));
+      renderAll();
+    });
+  });
+}
+$("#addModifierBtn").addEventListener("click",()=>{
+  const modifiers=dataSource.getModifiers();
+  const id=slugify("New modifier",modifiers.map(m=>m.id));
+  modifiers.push({id,name:"New modifier",category:"modifier",crossesLocation:"no",includeNearMe:false,defaultMatchType:"exact+phrase",parentThemeIds:[],notes:""});
+  dataSource.saveModifiers(modifiers);
+  renderAll();
+});
+
+// ---------- Cities ----------
+function renderCities(){
+  const cities=dataSource.getCities();
+  $("#cityList").innerHTML=cities.length?cities.map((c,i)=>`<span class="city-chip">${c}<button data-idx="${i}">×</button></span>`).join(""):
+    `<div class="empty-note">No cities yet — add some below.</div>`;
+  $("#cityList").querySelectorAll("[data-idx]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const cities=dataSource.getCities();
+      cities.splice(Number(btn.dataset.idx),1);
+      dataSource.saveCities(cities);
+      renderAll();
+    });
+  });
+}
+function addCity(){
+  const inp=$("#cityInput"),val=inp.value.trim();
+  if(!val)return;
+  const cities=dataSource.getCities();
+  if(!cities.some(c=>c.toLowerCase()===val.toLowerCase()))cities.push(val);
+  dataSource.saveCities(cities);
+  inp.value="";
+  renderAll();
+}
+$("#addCityBtn").addEventListener("click",addCity);
+$("#cityInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addCity();}});
+$("#clearCitiesBtn").addEventListener("click",()=>{dataSource.saveCities([]);renderAll();});
+
+// ---------- Generation ----------
+function generateKeywords(themes,modifiers,cities){
+  const rows=[],seen=new Set();
+  function push(keyword,source,category,matchType,crossesLocation,variant){
+    const k=keyword.trim().replace(/\s+/g," ");
+    if(!k)return;
+    const dupKey=k.toLowerCase();
+    if(seen.has(dupKey))return;
+    seen.add(dupKey);
+    rows.push({keyword:k,source,category,matchType,crossesLocation,variant});
+  }
+  function expand(phrase,crossesLocation,includeNearMe,source,category,matchType){
+    if(crossesLocation==="no"){push(phrase,source,category,matchType,crossesLocation,"bare");return;}
+    cities.forEach(city=>push(`${phrase} ${city}`,source,category,matchType,crossesLocation,"city"));
+    if(includeNearMe)push(`${phrase} near me`,source,category,matchType,crossesLocation,"near-me");
+  }
+  themes.forEach(t=>expand(t.name,t.crossesLocation,t.includeNearMe,t.name,"core",t.defaultMatchType));
+  const byId=Object.fromEntries(themes.map(t=>[t.id,t]));
+  modifiers.forEach(m=>{
+    (m.parentThemeIds||[]).forEach(pid=>{
+      const parent=byId[pid];if(!parent)return;
+      const phrase=`${parent.name} ${m.name}`;
+      expand(phrase,m.crossesLocation,m.includeNearMe,`${parent.name} + ${m.name}`,"modifier",m.defaultMatchType);
+    });
+  });
+  return rows;
+}
+
+const DETAIL_COLS=[
+  {key:"keyword",label:"Keyword",val:r=>r.keyword.toLowerCase()},
+  {key:"source",label:"Source",val:r=>r.source.toLowerCase()},
+  {key:"category",label:"Category",val:r=>r.category},
+  {key:"matchType",label:"Match Type",val:r=>r.matchType},
+  {key:"crossesLocation",label:"Crosses Location",val:r=>r.crossesLocation},
+  {key:"variant",label:"Variant",val:r=>r.variant},
+];
+let SORT={key:"keyword",dir:"asc"};
+let LAST_ROWS=[];
+
+function renderDetailHead(){
+  $("#detailHead").innerHTML=DETAIL_COLS.map(c=>{
+    const active=SORT.key===c.key,arr=active?(SORT.dir==="asc"?"▲":"▼"):"";
+    return `<th class="sortable ${active?"sorted":""}" data-key="${c.key}">${c.label}<span class="arr">${arr}</span></th>`;
+  }).join("");
+}
+function renderResults(){
+  const themes=dataSource.getThemes(),modifiers=dataSource.getModifiers(),cities=dataSource.getCities();
+  const rows=generateKeywords(themes,modifiers,cities);
+  const col=DETAIL_COLS.find(c=>c.key===SORT.key)||DETAIL_COLS[0];
+  const dir=SORT.dir==="asc"?1:-1;
+  rows.sort((x,y)=>dir*String(col.val(x)).localeCompare(String(col.val(y))));
+  LAST_ROWS=rows;
+  $("#countBadge").textContent=`${rows.length} keyword${rows.length===1?"":"s"} generated`;
+  $("#flatOutput").textContent=rows.map(r=>r.keyword).join("\n")||"No keywords yet — add themes and cities above.";
+  renderDetailHead();
+  $("#detailBody").innerHTML=rows.map(r=>`<tr>
+    <td>${r.keyword}</td><td>${r.source}</td><td><span class="pill ${r.category==="core"?"good":"neutral"}">${r.category}</span></td>
+    <td>${r.matchType}</td><td>${r.crossesLocation}</td><td>${r.variant}</td>
+  </tr>`).join("")||`<tr><td colspan="6" class="empty-note">No keywords yet.</td></tr>`;
+}
+$("#detailTable").addEventListener("click",e=>{
+  const th=e.target.closest("th[data-key]");if(!th)return;
+  const key=th.dataset.key;
+  if(SORT.key===key)SORT.dir=SORT.dir==="asc"?"desc":"asc";else{SORT.key=key;SORT.dir="asc";}
+  renderResults();
+});
+
+$("#copyBtn").addEventListener("click",()=>{
+  navigator.clipboard.writeText(LAST_ROWS.map(r=>r.keyword).join("\n")).then(()=>{
+    const btn=$("#copyBtn"),orig=btn.textContent;
+    btn.textContent="Copied!";setTimeout(()=>{btn.textContent=orig;},1400);
+  });
+});
+$("#csvBtn").addEventListener("click",()=>{
+  const esc=s=>`"${String(s).replace(/"/g,'""')}"`;
+  const header=["Keyword","Source","Category","Match Type","Crosses Location","Variant"];
+  const lines=[header.join(",")].concat(LAST_ROWS.map(r=>[r.keyword,r.source,r.category,r.matchType,r.crossesLocation,r.variant].map(esc).join(",")));
+  const blob=new Blob([lines.join("\n")],{type:"text/csv"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download=`stag-keywords-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+});
+
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const tab=btn.dataset.tab;
+    $("#flatView").style.display=tab==="flat"?"":"none";
+    $("#detailView").style.display=tab==="detail"?"":"none";
+  });
+});
+
+$("#saveBtn").addEventListener("click",()=>{dataSource.downloadConfig();renderAllState();});
+$("#resetBtn").addEventListener("click",()=>{dataSource.resetToCommitted();renderAll();});
+
+function renderAllState(){updateStateLbl();}
+function renderResultsAndState(){renderResults();renderAllState();}
+function renderAll(){renderThemes();renderModifiers();renderCities();renderResultsAndState();}
+
+dataSource.init().then(renderAll).catch(e=>{
+  $("#footer").textContent="Could not load data/keyword_generator.json";console.error(e);
+});
+</script>
+</body>
+</html>

@@ -17,6 +17,10 @@
   .banner{background:rgba(47,111,237,.08);border:1px solid rgba(47,111,237,.30);color:#274b9e;
     border-radius:12px;padding:12px 16px;font-size:13px;margin-bottom:20px;}
   .banner code{background:rgba(0,0,0,.06);padding:2px 6px;border-radius:5px;}
+  .pagenav{display:flex;gap:16px;margin:10px 0 22px;font-size:13px;border-bottom:1px solid var(--line);padding-bottom:10px;}
+  .pagenav a{color:var(--muted);font-weight:600;text-decoration:none;padding:2px 0;border-bottom:2px solid transparent;}
+  .pagenav a:hover{color:var(--txt);}
+  .pagenav a.active{color:var(--accent);border-bottom-color:var(--accent);}
   .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;}
   .pill.good{background:rgba(26,158,99,.14);color:var(--good);}
   .pill.warn{background:rgba(192,125,10,.16);color:var(--warn);}
@@ -59,6 +63,10 @@
       <div class="sub" id="periodSub">Loading…</div></div>
     <div class="sub" id="genSub"></div>
   </header>
+  <nav class="pagenav">
+    <a href="index.html" class="active">Budget Pacing</a>
+    <a href="keyword-generator.html">Keyword Generator</a>
+  </nav>
 
   <div id="banner" class="banner" style="display:none"></div>
 
