@@ -4,22 +4,14 @@
     { "id": "orthodontist-generic", "name": "Orthodontist", "category": "Orthodontics" },
     { "id": "braces", "name": "Braces", "category": "Orthodontics" },
     { "id": "metal-braces", "name": "Metal Braces", "category": "Orthodontics" },
-    { "id": "ceramic-braces", "name": "Ceramic Braces", "category": "Orthodontics" },
-    { "id": "lingual-braces", "name": "Lingual Braces", "category": "Orthodontics" },
-    { "id": "self-ligating-braces", "name": "Self-Ligating Braces", "category": "Orthodontics" },
     { "id": "invisalign", "name": "Invisalign", "category": "Orthodontics" },
     { "id": "invisalign-teen", "name": "Invisalign Teen", "category": "Orthodontics" },
     { "id": "invisalign-first", "name": "Invisalign First", "category": "Orthodontics" },
     { "id": "limited-invisalign", "name": "Limited Invisalign", "category": "Orthodontics" },
     { "id": "clear-aligners", "name": "Clear Aligners", "category": "Orthodontics" },
-    { "id": "spark-clear-aligners", "name": "Spark Clear Aligners", "category": "Orthodontics" },
-    { "id": "adult-orthodontics", "name": "Adult Orthodontics", "category": "Orthodontics" },
     { "id": "early-orthodontics", "name": "Early Orthodontics", "category": "Orthodontics" },
     { "id": "phase-1-orthodontics", "name": "Phase 1 Orthodontics", "category": "Orthodontics" },
     { "id": "two-phase-treatment", "name": "Two-Phase Treatment", "category": "Orthodontics" },
-    { "id": "teen-orthodontics", "name": "Teen Orthodontics", "category": "Orthodontics" },
-    { "id": "accelerated-orthodontics", "name": "Accelerated Orthodontics", "category": "Orthodontics" },
-    { "id": "palatal-expanders", "name": "Palatal Expanders", "category": "Orthodontics" },
 
     { "id": "pediatric-dentist", "name": "Pediatric Dentist", "category": "General & Pediatric Dentistry" },
     { "id": "kids-dentist", "name": "Kids Dentist", "category": "General & Pediatric Dentistry" },
@@ -47,7 +39,6 @@
     { "id": "sleep-apnea-treatment", "name": "Sleep Apnea Treatment", "category": "Sleep & Airway" },
     { "id": "oral-appliance-therapy", "name": "Oral Appliance Therapy", "category": "Sleep & Airway" },
     { "id": "sleep-appliances", "name": "Sleep Appliances", "category": "Sleep & Airway" },
-    { "id": "tmj", "name": "TMJ", "category": "Sleep & Airway" },
     { "id": "tmj-treatment", "name": "TMJ Treatment", "category": "Sleep & Airway" },
 
     { "id": "holistic-dentist", "name": "Holistic Dentist", "category": "Holistic & Wellness Dentistry" },
@@ -59,14 +50,10 @@
   "modifiers": [
     { "id": "cost", "name": "Cost" },
     { "id": "financing", "name": "Financing" },
-    { "id": "insurance", "name": "Insurance" },
-    { "id": "payment-plans", "name": "Payment Plans" },
-    { "id": "free-consultation", "name": "Free Consultation" },
-    { "id": "reviews", "name": "Reviews" },
     { "id": "for-kids", "name": "For Kids" },
     { "id": "for-teens", "name": "For Teens" },
     { "id": "for-adults", "name": "For Adults" },
-    { "id": "same-day", "name": "Same Day" },
-    { "id": "best", "name": "Best" }
+    { "id": "best", "name": "Best" },
+    { "id": "near-me", "name": "Near Me" }
   ]
 }
