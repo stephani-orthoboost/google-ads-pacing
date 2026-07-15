@@ -4,6 +4,7 @@
     { "id": "orthodontist-generic", "name": "Orthodontist", "category": "Orthodontics" },
     { "id": "braces", "name": "Braces", "category": "Orthodontics" },
     { "id": "metal-braces", "name": "Metal Braces", "category": "Orthodontics" },
+    { "id": "clear-braces", "name": "Clear Braces", "category": "Orthodontics" },
     { "id": "invisalign", "name": "Invisalign", "category": "Orthodontics" },
     { "id": "invisalign-teen", "name": "Invisalign Teen", "category": "Orthodontics" },
     { "id": "invisalign-first", "name": "Invisalign First", "category": "Orthodontics" },
