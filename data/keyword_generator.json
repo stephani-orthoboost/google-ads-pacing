@@ -11,8 +11,6 @@
     { "id": "limited-invisalign", "name": "Limited Invisalign", "category": "Orthodontics" },
     { "id": "clear-aligners", "name": "Clear Aligners", "category": "Orthodontics" },
     { "id": "early-orthodontics", "name": "Early Orthodontics", "category": "Orthodontics" },
-    { "id": "phase-1-orthodontics", "name": "Phase 1 Orthodontics", "category": "Orthodontics" },
-    { "id": "two-phase-treatment", "name": "Two-Phase Treatment", "category": "Orthodontics" },
 
     { "id": "pediatric-dentist", "name": "Pediatric Dentist", "category": "General & Pediatric Dentistry" },
     { "id": "kids-dentist", "name": "Kids Dentist", "category": "General & Pediatric Dentistry" },
@@ -50,7 +48,6 @@
   ],
   "modifiers": [
     { "id": "cost", "name": "Cost" },
-    { "id": "financing", "name": "Financing" },
     { "id": "for-kids", "name": "For Kids" },
     { "id": "for-teens", "name": "For Teens" },
     { "id": "for-adults", "name": "For Adults" },

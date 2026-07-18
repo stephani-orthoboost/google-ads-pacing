@@ -186,9 +186,11 @@ function generateKeywords(services,modifiers,cities){
     cities.forEach(city=>push(`${s.name} ${city}`));
   });
   modifiers.forEach(m=>{
+    const prefix=m.id==="best"; // "Best" reads naturally leading, e.g. "Best Invisalign" not "Invisalign Best"
     services.forEach(s=>{
-      push(`${s.name} ${m.name}`);
-      cities.forEach(city=>push(`${s.name} ${m.name} ${city}`));
+      const bare=prefix?`${m.name} ${s.name}`:`${s.name} ${m.name}`;
+      push(bare);
+      cities.forEach(city=>push(`${bare} ${city}`));
     });
   });
   return rows;
